@@ -95,6 +95,5 @@ footer {
   border: 4px solid var(--clr-accent);
   width: clamp(90px, 22vw, 150px);   /* min 90 px, max 150 px */
   height: clamp(90px, 22vw, 150px);  /* min 90 px, max 150 px */
-  transform: scale(0.7);  /* slightly larger than the text */
-  transform-origin: center;
+  
 }
