@@ -1,0 +1,100 @@
+/* ============================================================
+   1. Reset + CSS custom properties (design tokens)
+   ============================================================ */
+
+/* A modern “* selector reset” — removes default padding/margins
+   and makes the box model sane (padding+border counted in width). */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Theme colors you can reuse everywhere with var(--name) */
+:root {
+  --clr-bg-dark: #121212;
+  --clr-bg-light: #fafafa;
+  --clr-text-dark: #f5f5f5;
+  --clr-text-light: #212121;
+  --clr-accent: hsl(210 100% 60%);
+  --content-max-width: 960px;
+  --page-padding: 1.5rem;
+  --section-gap: 4rem;
+  font-size: 16px;        /* 1 rem = 16 px → easy math */
+}
+
+/* ============================================================
+   2. Global page styles
+   ============================================================ */
+
+body {
+  font-family: system-ui, sans-serif;
+  line-height: 1.5;
+  background: var(--clr-bg-dark);
+  color: var(--clr-text-dark);
+}
+
+/* Let’s center every top-level area and keep a tidy width */
+header,
+main,
+footer {
+  max-width: var(--content-max-width);
+  margin-inline: auto;          /* shorthand for left & right */
+  padding-inline: var(--page-padding);
+}
+
+/* Header flexbox so logo/text sits left, nav sits right */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 1rem;          /* top & bottom padding */
+}
+
+/* Simple horizontal nav list */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: inherit;               /* same color as body text */
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   3. Section placeholders
+   ============================================================ */
+
+/* Give every section some breathing room and a dashed outline
+   so you can see where it is while content is empty. */
+section {
+  padding-block: var(--section-gap);
+  border: 1px dashed #333;
+}
+
+/* Visually separate footer a bit */
+footer {
+  padding-block: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  opacity: 0.6;
+}
+/* HERO avatar */
+.hero__photo {
+  width: 120px;        /* ↓ pick any size you like, e.g. 100-140px */
+  aspect-ratio: 1;     /* stays square */
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--clr-accent);
+  width: clamp(90px, 22vw, 150px);   /* min 90 px, max 150 px */
+  height: clamp(90px, 22vw, 150px);  /* min 90 px, max 150 px */
+  transform: scale(0.7);  /* slightly larger than the text */
+  transform-origin: center;
+}
