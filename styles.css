@@ -76,7 +76,7 @@ nav a:hover {
    so you can see where it is while content is empty. */
 section {
   padding-block: var(--section-gap);
-  border: 1px dashed #333;
+  border: 2px dashed #7e7e7e;
 }
 
 /* Visually separate footer a bit */
@@ -93,10 +93,12 @@ footer {
     aspect-ratio: 1;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid var(--clr-accent);
+    border: 6px solid var(--clr-accent);
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: -2rem;
+  
 }
 .hero__photo:hover {
     transform: scale(1.05);
@@ -109,4 +111,16 @@ footer {
 .hero__text {
     text-align: center;
     margin-top: 1rem;
+}
+.about__text {
+    margin-top: 1rem;
+    text-align: center;
+}
+.about__title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    margin-top: -2rem;
+    
 }
