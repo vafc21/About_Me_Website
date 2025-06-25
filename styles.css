@@ -15,12 +15,16 @@
   --clr-bg-dark: #121212;
   --clr-bg-light: #fafafa;
   --clr-text-dark: #f5f5f5;
-  --clr-text-light: #212121;
-  --clr-accent: hsl(240, 100%, 60%);
+  --clr-text-light: #ffffff;
+  --clr-dark-accent: hsl(240, 69%, 21%);
+  --clr-light-accent: hsl(240, 69%, 90%);
   --content-max-width: 960px;
   --page-padding: 1.5rem;
   --section-gap: 4rem;
   font-size: 16px;        /* 1 rem = 16 px → easy math */
+  --radius: 1.5rem;
+  --transtion: all 0.3s ease-in-out;
+  
 }
 
 /* ============================================================
@@ -76,7 +80,20 @@ nav a:hover {
    so you can see where it is while content is empty. */
 section {
   padding-block: var(--section-gap);
-  border: 2px dashed #7e7e7e;
+  /*border: 2px solid #7e7e7e;*/
+  background-color: #121929;
+  border-radius: var(--radius);
+  border: var(--clr-bg-light) 5px solid;
+  
+}
+section:hover {
+  background-color: #1a1a2e;
+  transition: var(--transtion);
+  transform: scale(1.01);
+}
+section:active {
+  transition: var(--transtion);
+  transform: scale(0.99);
 }
 
 /* Visually separate footer a bit */
@@ -93,7 +110,7 @@ footer {
     aspect-ratio: 1;
     border-radius: 50%;
     object-fit: cover;
-    border: 6px solid var(--clr-accent);
+    border: 6px solid var(--clr-dark-accent);
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -106,7 +123,7 @@ footer {
 }
 .hero__photo:active {
     transform: scale(0.95);
-    transition: all 0.3s ease-in-out;
+    transition: var(--transtion);
 }
 .hero__text {
     text-align: center;
@@ -123,4 +140,23 @@ footer {
     margin-bottom: 1rem;
     margin-top: -2rem;
     
+}
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--clr-dark-accent);
+    color: var(--clr-text-light);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: var(--transtion);
+    margin-top: 0.75rem;
+}
+.btn:hover {
+    background-color: var(--clr-light-accent);
+    color: var(--clr-dark-accent);
+}
+.btn:active {
+    background-color: var(--clr-dark-accent);
+    color: var(--clr-text-light);
+    transition: var(--transtion);
 }
