@@ -84,6 +84,9 @@ section {
   background-color: #121929;
   border-radius: var(--radius);
   border: var(--clr-bg-light) 5px solid;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
   
 }
 section:hover {
@@ -104,6 +107,7 @@ footer {
   opacity: 0.6;
 }
 /* HERO avatar */
+
 .hero__photo {
     width: 20%;
     height: inherit;
