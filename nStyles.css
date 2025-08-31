@@ -3,7 +3,7 @@
   --speed: 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --closed: 5rem;
   --open: 30rem;
-  --accent: #ff6b35;
+  --accent: hsl(240, 70%, 42%);
 }
 * {
   margin: 0;
@@ -376,7 +376,7 @@ body {
 }
 .project-card {
   /* 2px Dodger‑Blue border that follows the existing 1rem radius */
-  border: 2px solid #1e90ff;
+  border: 2px solid hsla(240, 70%, 42%, 0.649);
   /* no need to re‑declare radius if it’s already 1rem, 
      but you can reaffirm it here if you like: */
   border-radius: 1rem;
@@ -386,7 +386,7 @@ body {
 
 .project-card[active] {
   /* ensure the active card keeps the same border style */
-  border: 2px solid #1e90ff;
+  border: 2px solid hsl(240, 70%, 42%);
 }
 /* centre the wrapper that holds your <h3> + <p> */
 .frosted-box > div {
