@@ -2,29 +2,39 @@
    1. Reset + CSS custom properties (design tokens)
    ============================================================ */
 
-/* A modern “* selector reset” — removes default padding/margins
-   and makes the box model sane (padding+border counted in width). */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Theme colors you can reuse everywhere with var(--name) */
 :root {
-  --clr-bg-dark: #07090d;
-  --clr-bg-light: #fafafa;
-  --clr-text-dark: #f5f5f5;
-  --clr-text-light: #ffffff;
-  --clr-dark-accent: hsl(240, 69%, 21%);
-  --clr-light-accent: hsl(240, 69%, 90%);
+  --clr-bg-dark:      #0d1117;
+  --clr-bg-surface:   #161b22;
+  --clr-bg-hover:     #1c2128;
+  --clr-border:       #30363d;
+  --clr-text-primary: #e6edf3;
+  --clr-text-muted:   #8b949e;
+  --clr-accent:       #58a6ff;
+  --clr-accent-hover: #79c0ff;
+
+  /* Legacy aliases kept for compatibility */
+  --clr-bg-light:     #30363d;
+  --clr-text-dark:    #e6edf3;
+  --clr-text-light:   #ffffff;
+  --clr-dark-accent:  #1a2f4a;
+  --clr-light-accent: #58a6ff;
+
+  --font-body:  -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
   --content-max-width: 960px;
-  --page-padding: 1.5rem;
-  --section-gap: 4rem;
-  font-size: 16px;        /* 1 rem = 16 px → easy math */
-  --radius: 1.5rem;
-  --transtion: all 0.3s ease-in-out;
-  
+  --page-padding:      1.5rem;
+  --section-gap:       2rem;
+  --radius:            0.75rem;
+  --transition:        all 0.2s ease;
+
+  font-size: 16px;
 }
 
 /* ============================================================
@@ -32,160 +42,206 @@
    ============================================================ */
 
 body {
-    font-family: system-ui, sans-serif;
-    line-height: 1.5;
-    background: var(--clr-bg-dark);
-    color: var(--clr-text-dark);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  background: var(--clr-bg-dark);
+  color: var(--clr-text-primary);
 }
 
-/* Let’s center every top-level area and keep a tidy width */
 header,
 main,
 footer {
   max-width: var(--content-max-width);
-  margin-inline: auto;          /* shorthand for left & right */
+  margin-inline: auto;
   padding-inline: var(--page-padding);
 }
 
-/* Header flexbox so logo/text sits left, nav sits right */
+/* ============================================================
+   3. Header & nav
+   ============================================================ */
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-block: 1rem;          /* top & bottom padding */
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--clr-border);
+  margin-bottom: 2rem;
 }
 
-/* Simple horizontal nav list */
 nav ul {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 0.25rem;
 }
 
 nav a {
   text-decoration: none;
-  color: inherit;               /* same color as body text */
+  color: var(--clr-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 500;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.4rem;
+  transition: var(--transition);
+  border: 1px solid transparent;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  color: var(--clr-accent);
+  background: rgba(88, 166, 255, 0.08);
+  border-color: rgba(88, 166, 255, 0.2);
+}
+
+h1 {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--clr-text-primary);
+  letter-spacing: -0.01em;
 }
 
 /* ============================================================
-   3. Section placeholders
+   4. Sections
    ============================================================ */
 
-/* Give every section some breathing room and a dashed outline
-   so you can see where it is while content is empty. */
 section {
   padding-block: var(--section-gap);
-  /*border: 2px solid #7e7e7e;*/
-  background-color: #121929;
+  padding-inline: 2rem;
+  background-color: var(--clr-bg-surface);
   border-radius: var(--radius);
-  border: var(--clr-bg-light) 5px solid;
+  border: 1px solid var(--clr-border);
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1rem;
-  
-}
-section:hover {
-  background-color: #1a1a2e;
-  transition: var(--transtion);
-  transform: scale(1.01);
-}
-section:active {
-  transition: var(--transtion);
-  transform: scale(0.99);
 }
 
-/* Visually separate footer a bit */
+section:hover {
+  background-color: var(--clr-bg-hover);
+  transition: background-color 0.2s ease;
+}
+
+/* ============================================================
+   5. Footer
+   ============================================================ */
+
 footer {
   padding-block: 1rem;
   text-align: center;
-  font-size: 0.875rem;
-  opacity: 0.6;
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+  border-top: 1px solid var(--clr-border);
+  margin-top: 2rem;
+  font-family: var(--font-mono);
 }
-/* HERO avatar */
+
+/* ============================================================
+   6. About / content components
+   ============================================================ */
+
+.about__text {
+  margin-top: 0.85rem;
+  color: var(--clr-text-primary);
+  line-height: 1.7;
+}
+
+.about__title {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--clr-text-primary);
+}
+
+.about__list {
+  margin-top: 1rem;
+  text-align: left;
+  margin-left: 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 2;
+  color: var(--clr-text-primary);
+}
+
+/* ============================================================
+   7. Buttons
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  background-color: var(--clr-dark-accent);
+  color: var(--clr-accent);
+  text-decoration: none;
+  border-radius: 0.4rem;
+  border: 1px solid var(--clr-border);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: var(--transition);
+  margin-top: 0.6rem;
+  margin-right: 0.4rem;
+}
+
+.btn:hover {
+  background-color: var(--clr-accent);
+  color: var(--clr-bg-dark);
+  border-color: var(--clr-accent);
+}
+
+.btn:active {
+  background-color: var(--clr-accent-hover);
+  color: var(--clr-bg-dark);
+}
+
+/* ============================================================
+   8. Logo images inside buttons
+   ============================================================ */
+
+.about__github-logo {
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+}
+
+.about__gmail-logo {
+  width: 1.5rem;
+  height: 1.25rem;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+
+/* ============================================================
+   9. Hero photo (legacy — not used on current index)
+   ============================================================ */
 
 .hero__photo {
-    width: 20%;
-    height: inherit;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 6px solid var(--clr-dark-accent);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: -2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    min-width: 120px;
-    min-height: auto;
+  width: 20%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--clr-border);
+  display: block;
+  margin-inline: auto;
+  margin-top: -2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  min-width: 120px;
 }
+
 .hero__photo:hover {
-    transform: scale(1.05);
-    transition: all 0.3s ease-in-out;
+  border-color: var(--clr-accent);
+  transition: var(--transition);
 }
-.hero__photo:active {
-    transform: scale(0.95);
-    transition: var(--transtion);
-}
+
 .hero__text {
-    text-align: center;
-    margin-top: 1rem;
-}
-.about__text {
-    margin-top: 1rem;
-    text-align: center;
-}
-.about__title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    margin-top: -2rem;
-    
-}
-.about__list {
-    margin-top: 1rem;
-    text-align: left;
-    margin-left: 2rem;
-    font-size: large;
-    font-weight: 500;
-}
-.about__github-logo {
-    width: 2rem;
-    height: 2rem;
-    vertical-align: middle;
-    margin-right: 0.5rem;
-    margin-bottom: 0.1rem;
-}
-.about__gmail-logo {
-    width: 2.4rem;
-    height: 2rem;
-    vertical-align: middle;
-    margin-right: 0.5rem;
-    margin-bottom: 0.1rem;
-}
-.btn {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: var(--clr-dark-accent);
-    color: var(--clr-text-light);
-    text-decoration: none;
-    border-radius: var(--radius);
-    transition: var(--transtion);
-    margin-top: 0.75rem;
-    margin-right: 0.5rem;
-}
-.btn:hover {
-    background-color: var(--clr-light-accent);
-    color: var(--clr-dark-accent);
-}
-.btn:active {
-    background-color: var(--clr-dark-accent);
-    color: var(--clr-text-light);
-    transition: var(--transtion);
+  text-align: center;
+  margin-top: 1rem;
 }

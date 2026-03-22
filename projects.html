@@ -6,10 +6,16 @@
         <title>Vlad Petrosyan</title>
         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="devStyles.css">
     </head>
     <body>
         <header>
-            <h1>Vlad Petrosyan</h1>
+            <div class="header-brand">
+                <h1>Vlad Petrosyan</h1>
+                <div class="file-path">
+                    <span class="path-home">~</span><span class="path-sep">/</span><span class="path-dir">vlad</span><span class="path-sep">/</span><span class="path-file">projects.html</span>
+                </div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
@@ -22,7 +28,10 @@
         </header>
         <main>
             <section>
-                <h2 class="about__title">My Computer</h2>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">a3f8d21</span> &middot;</span>
+                    My Computer
+                </h2>
                 <p class="about__text">
                     When I was 13, and I really wanted a gaming computer, but they were so expensive. Then I found out about a local bidding website called Mac Bids. I saved up some money from holidays and birthdays and started placing bids on cheap PC parts.</p>
                 <p class="about__text">
@@ -41,52 +50,113 @@
                 </ul>
             </section>
             <section>
-                <h2 class="about__title">FTC Robotics 2024-2025</h2>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">b7c2e94</span> &middot;</span>
+                    FTC Robotics 2024-2025
+                </h2>
                 <p class="about__text">This season I joined the team late. When I arrived, they were really struggling to find a programmer because the head programmer was also trying to manage an FRC team.</p>
                 <p class="about__text">When I stepped in and mentioned that I knew some Python, he said, "Perfect, take these courses on Java." So I took the courses, and about a week later I understood most of the code. For the rest of the season, I focused on writing basic OpMode code.</p>
-                <p class="about__text">Towards the end of the season, I wanted to write an autonomous mode, but I couldn’t figure out Road Runner at the time since the tuning wasn’t working. Other than that, I think our team performed pretty well.</p>
-                <p class="about__text">Overall, I really enjoyed the experience. I’d love to see my code actually do something in real life. I made great friends, and I can’t wait for the 2025 season!</p>
-                <p class="about__text">  
+                <p class="about__text">Towards the end of the season, I wanted to write an autonomous mode, but I couldn't figure out Road Runner at the time since the tuning wasn't working. Other than that, I think our team performed pretty well.</p>
+                <p class="about__text">Overall, I really enjoyed the experience. It was my first time writing code for a real robot, and it got me excited for the next season.</p>
+                <p class="about__text">
                     <a href="https://github.com/MrStickyG/FTC2025.2/tree/2-Player-Vlad" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">The Repository</a>
-                    <a href="https://ftcscout.org/teams/8509#USPAUCQ2" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/ftcscout.png" alt="FTC Scout Logo" class="about__github-logo">FTC Scout</a>
+                    <a href="https://ftcscout.org/teams/8509?season=2024" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/ftcscout.png" alt="FTC Scout Logo" class="about__github-logo">FTC Scout</a>
                 </p>
             </section>
             <section>
-                <h2 class="about__title">This Website</h2>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">4c8a1f9</span> &middot;</span>
+                    FTC Robotics 2025-2026
+                </h2>
+                <p class="about__text">Coming off of last season, I was excited to compete again with a better understanding of the code and more time to prepare. This season I had a lot more confidence going in and was able to contribute from the start.</p>
+                <p class="about__text">We competed in two events this season. At the Green and Red Scrimmage in December 2025, we finished 19th. At the Southwestern Pennsylvania Qualifier in February 2026, we finished 24th.</p>
+                <p class="about__text">
+                    <a href="https://github.com/vafc21/FtcRobotController/tree/8509_DECODE_25-26_limelight" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">The Repository</a>
+                    <a href="https://ftcscout.org/teams/8509?season=2025" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/ftcscout.png" alt="FTC Scout Logo" class="about__github-logo">FTC Scout</a>
+                </p>
+            </section>
+            <section>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">c1d5f83</span> &middot;</span>
+                    This Website
+                </h2>
                 <p class="about__text">This website was a project I had wanted to do for a long time. For this website, I used HTML, CSS, and JavaScript. I wanted something that would show my skills, projects, and things about me.</p>
-
             </section>
             <section>
-                <h2 class="about__title">Big Bake Bites Bakery</h2>
-                <p class="about__text">Big Bake Bites Bakery is a bakery that my friend started. She is really good at baking, but she just can't buy or rent a store. So I offered to make her a website to sell her baked goods.</p>
-
-                <p class="about__text">I built the website and also created a JSON file that she can edit herself with titles, images, and other details. Right now, it’s not live because we’re waiting for her license to sell baked goods, but once she gets that, it’s going to be live.</p>
-
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">9d2e7b3</span> &middot;</span>
+                    Orbit
+                </h2>
+                <p class="about__text">Orbit is a self-hosted student hub I built to consolidate everything students deal with daily — schedules, study sets, assignments, and messaging — into one clean dashboard.</p>
+                <p class="about__text">It's built with HTML and Python, with a lightweight Python server handling local data storage. Features include a weekly schedule view with class countdowns, flashcard study modes, assignment tracking, class threads, and direct messaging between students.</p>
+                <p class="about__text">
+                    <a href="https://github.com/vafc21/orbit" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">The Repository</a>
+                    <a href="https://www.youtube.com/watch?v=N-FwkWTuy_Y" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;">▶ Demo Video</a>
+                </p>
             </section>
             <section>
-                <h2 class="about__title">Python AI Online/Local (In Progress)</h2>
-                <p class="about__text">This is a project I started a while ago. It uses the OpenAI API for its online portion, and for the local portion, I used AI to help me make it. It was just a little too advanced for my level at the time. For now, you can only interact with it using your mic, and it responds by speaking through your speakers.</p>
-
-                <p class="about__text">I wanted to make it work through the console as well. It’s currently in progress. I just haven’t gotten around to fixing it yet.</p>
-
-                <p class="about__text">If you would like to look at the code it's in my Github Profile.</p>
-                <p class="about__text"><strong>↓</strong>&nbsp;You can find my Github profile down below.&nbsp;<strong>↓</strong></p>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">e9b3c52</span> &middot;</span>
+                    MyAI
+                </h2>
+                <p class="about__text">MyAI is a chatbot I built using ChatGPT's API. You can type to it and it responds using OpenAI's models. It was a project I started to learn how to work with AI APIs and build something actually useful.</p>
+                <p class="about__text">If you would like to look at the code, check out my GitHub profile below.</p>
+                <p class="about__text">
+                    <a href="https://github.com/vafc21/MyAI" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">The Repository</a>
+                </p>
             </section>
             <section>
-                <h2 class="about__title">My GitHub</h2>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">6f1a4c8</span> &middot;</span>
+                    Dont_Get_Caught
+                </h2>
+                <p class="about__text">This is the first game I ever made, built with Python and Pygame. It's an avoidance game where you control a character and have to dodge enemies using your reflexes and timing. Controls are arrow keys or WASD.</p>
+                <p class="about__text">It was a great intro to game development and helped me understand how to structure a larger Python project across multiple files.</p>
+                <p class="about__text">
+                    <a href="https://github.com/vafc21/Dont_Get_Caught" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">The Repository</a>
+                </p>
+            </section>
+            <section>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">2b5d9e7</span> &middot;</span>
+                    Raspi Py Server
+                </h2>
+                <p class="about__text">A web-based dashboard I built for my Raspberry Pi that lets me run Python and shell scripts from any browser on my local network. I can upload scripts, clone Git repos, and stream the live output in real time — all without needing SSH.</p>
+                <p class="about__text">Built with Python (FastAPI) on the backend and plain HTML/CSS/JS on the frontend. Definitely something I use for my own setup.</p>
+                <p class="about__text">
+                    <a href="https://github.com/vafc21/raspi-py-server" target="_blank" rel="noopener noreferrer" class="btn" style="font-weight: 500;"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">The Repository</a>
+                </p>
+            </section>
+            <section>
+                <h2 class="about__title">
+                    <span class="git-commit-id">commit <span class="commit-hash">f2a7d68</span> &middot;</span>
+                    My GitHub
+                </h2>
                 <p class="about__text">
                     My GitHub profile is where all of my projects and code snippets are stored. You can find everything from robotics code to web development projects there.
                 </p>
-                <p class="about__text">  
+                <p class="about__text">
                     <a href="https://github.com/vafc21" class="btn" style="font-weight: 500;" target="_blank" rel="noopener noreferrer"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">My GitHub Profile</a>
                 </p>
-                
             </section>
         </main>
 
         <footer>
             <p>&copy; 2025 Vlad Petrosyan. All rights reserved.</p>
         </footer>
+
+        <!-- VS Code Status Bar -->
+        <div class="vscode-statusbar" aria-hidden="true">
+            <div class="statusbar-left">
+                <span class="statusbar-item">⎇ main</span>
+                <span class="statusbar-item">✓ 0 errors</span>
+            </div>
+            <div class="statusbar-right">
+                <span class="statusbar-item">HTML</span>
+                <span class="statusbar-item">UTF-8</span>
+                <span class="statusbar-item statusbar-clock"></span>
+            </div>
+        </div>
 
         <script src="script.js"></script>
     </body>

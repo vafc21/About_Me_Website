@@ -1,9 +1,9 @@
 :root {
   --gap: 1.25rem;
   --speed: 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --closed: 5rem;
-  --open: 30rem;
-  --accent: hsl(240, 70%, 42%);
+  --closed: clamp(5rem, 6vw, 9rem);
+  --open: clamp(28rem, 32vw, 52rem);
+  --accent: #58a6ff;
 }
 * {
   margin: 0;
@@ -11,9 +11,9 @@
   box-sizing: border-box;
 }
 body {
-  font-family: Inter, sans-serif;
-  background: #07090d;
-  color: #c5c7ce;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
 }
 
 .head {
@@ -84,7 +84,7 @@ body {
 .project-card {
   position: relative;
   flex: 0 0 var(--closed);
-  height: 26rem;
+  height: clamp(26rem, 28vw, 40rem);
   border-radius: 1rem;
   overflow: Visible;
   cursor: pointer;
@@ -375,18 +375,13 @@ body {
   }
 }
 .project-card {
-  /* 2px Dodger‑Blue border that follows the existing 1rem radius */
-  border: 2px solid hsla(240, 70%, 42%, 0.649);
-  /* no need to re‑declare radius if it’s already 1rem, 
-     but you can reaffirm it here if you like: */
+  border: 1px solid rgba(88, 166, 255, 0.25);
   border-radius: 1rem;
-  /* clip any child overflow to keep the shape clean */
   overflow: hidden;
 }
 
 .project-card[active] {
-  /* ensure the active card keeps the same border style */
-  border: 2px solid hsl(240, 70%, 42%);
+  border: 1px solid #58a6ff;
 }
 /* centre the wrapper that holds your <h3> + <p> */
 .frosted-box > div {

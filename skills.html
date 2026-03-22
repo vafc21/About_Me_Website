@@ -6,10 +6,16 @@
         <title>Vlad Petrosyan</title>
         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="devStyles.css">
     </head>
     <body>
         <header>
-            <h1>Vlad Petrosyan</h1>
+            <div class="header-brand">
+                <h1>Vlad Petrosyan</h1>
+                <div class="file-path">
+                    <span class="path-home">~</span><span class="path-sep">/</span><span class="path-dir">vlad</span><span class="path-sep">/</span><span class="path-file">skills.html</span>
+                </div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
@@ -23,40 +29,77 @@
         <main>
             <h2 class="about__title">My Skills</h2>
             <section>
-                <h3 class="about__title">Programming Languages</h3>
-                <ul class="about__list">
-                    <li>Python</li>
-                    <li>Java</li>
-                    <li>C++</li>
-                    <li>JavaScript</li>
-                </ul>
-                
+                <h3 class="about__title"><span class="code-comment">// </span>Programming Languages</h3>
+                <div class="skill-code-block">
+                    <div><span class="ln">1</span><span class="kw">String</span><span class="op">[]</span> <span class="id">languages</span> <span class="op">=</span> <span class="op">{</span></div>
+                    <div><span class="ln">2</span>&nbsp;&nbsp;<span class="str">"Python"</span><span class="op">,</span></div>
+                    <div><span class="ln">3</span>&nbsp;&nbsp;<span class="str">"Java"</span><span class="op">,</span></div>
+                    <div><span class="ln">4</span>&nbsp;&nbsp;<span class="str">"C++"</span><span class="op">,</span></div>
+                    <div><span class="ln">5</span>&nbsp;&nbsp;<span class="str">"JavaScript"</span></div>
+                    <div><span class="ln">6</span><span class="op">};</span></div>
+                </div>
+                <div class="skill-badges">
+                    <span class="badge-pill">Python</span>
+                    <span class="badge-pill">Java</span>
+                    <span class="badge-pill">C++</span>
+                    <span class="badge-pill">JavaScript</span>
+                </div>
             </section>
             <section>
-                <h3 class="about__title">Hardware Skills</h3>
-                <ul class="about__list">
-                    <li>Computer Building</li>
-                    <li>Arduino</li>
-                    <li>Raspberry Pi</li>
-                    <li>3D Printing</li>
-                    <li>Robotics (FTC)</li>
-                </ul>
+                <h3 class="about__title"><span class="code-comment">// </span>Hardware Skills</h3>
+                <div class="skill-code-block">
+                    <div><span class="ln">1</span><span class="kw">String</span><span class="op">[]</span> <span class="id">hardware</span> <span class="op">=</span> <span class="op">{</span></div>
+                    <div><span class="ln">2</span>&nbsp;&nbsp;<span class="str">"Computer Building"</span><span class="op">,</span></div>
+                    <div><span class="ln">3</span>&nbsp;&nbsp;<span class="str">"Arduino"</span><span class="op">,</span></div>
+                    <div><span class="ln">4</span>&nbsp;&nbsp;<span class="str">"Raspberry Pi"</span><span class="op">,</span></div>
+                    <div><span class="ln">5</span>&nbsp;&nbsp;<span class="str">"3D Printing"</span><span class="op">,</span></div>
+                    <div><span class="ln">6</span>&nbsp;&nbsp;<span class="str">"Robotics (FTC)"</span></div>
+                    <div><span class="ln">7</span><span class="op">};</span></div>
+                </div>
+                <div class="skill-badges">
+                    <span class="badge-pill">Computer Building</span>
+                    <span class="badge-pill">Arduino</span>
+                    <span class="badge-pill">Raspberry Pi</span>
+                    <span class="badge-pill">3D Printing</span>
+                    <span class="badge-pill">Robotics (FTC)</span>
+                </div>
             </section>
             <section>
-                <h3 class="about__title">Other Skills</h3>
-                <ul class="about__list">
-                    <li>Linux (Ubuntu)</li>
-                    <li>Web Development (HTML, CSS)</li>
-                    <li>Problem Solving</li>
-                    <li>Team Collaboration</li>
-                </ul>
+                <h3 class="about__title"><span class="code-comment">// </span>Other Skills</h3>
+                <div class="skill-code-block">
+                    <div><span class="ln">1</span><span class="kw">String</span><span class="op">[]</span> <span class="id">other</span> <span class="op">=</span> <span class="op">{</span></div>
+                    <div><span class="ln">2</span>&nbsp;&nbsp;<span class="str">"Linux (Ubuntu)"</span><span class="op">,</span></div>
+                    <div><span class="ln">3</span>&nbsp;&nbsp;<span class="str">"Web Development (HTML, CSS)"</span><span class="op">,</span></div>
+                    <div><span class="ln">4</span>&nbsp;&nbsp;<span class="str">"Problem Solving"</span><span class="op">,</span></div>
+                    <div><span class="ln">5</span>&nbsp;&nbsp;<span class="str">"Team Collaboration"</span></div>
+                    <div><span class="ln">6</span><span class="op">};</span></div>
+                </div>
+                <div class="skill-badges">
+                    <span class="badge-pill">Linux (Ubuntu)</span>
+                    <span class="badge-pill">Web Development</span>
+                    <span class="badge-pill">Problem Solving</span>
+                    <span class="badge-pill">Team Collaboration</span>
+                </div>
             </section>
-            
+
         </main>
 
         <footer>
             <p>&copy; 2025 Vlad Petrosyan. All rights reserved.</p>
         </footer>
+
+        <!-- VS Code Status Bar -->
+        <div class="vscode-statusbar" aria-hidden="true">
+            <div class="statusbar-left">
+                <span class="statusbar-item">⎇ main</span>
+                <span class="statusbar-item">✓ 0 errors</span>
+            </div>
+            <div class="statusbar-right">
+                <span class="statusbar-item">HTML</span>
+                <span class="statusbar-item">UTF-8</span>
+                <span class="statusbar-item statusbar-clock"></span>
+            </div>
+        </div>
 
         <script src="script.js"></script>
     </body>

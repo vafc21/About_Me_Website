@@ -6,10 +6,16 @@
         <title>Vlad Petrosyan</title>
         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="devStyles.css">
     </head>
     <body>
         <header>
-            <h1>Vlad Petrosyan</h1>
+            <div class="header-brand">
+                <h1>Vlad Petrosyan</h1>
+                <div class="file-path">
+                    <span class="path-home">~</span><span class="path-sep">/</span><span class="path-dir">vlad</span><span class="path-sep">/</span><span class="path-file">about.html</span>
+                </div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
@@ -22,28 +28,30 @@
         </header>
         <main>
             <section id="about" class="about">
-                <h2 class="about__title">About Me</h2>
+                <h2 class="about__title"><span class="code-comment">// </span>About Me</h2>
                 <p class="about__text">
-                    Hey my name is Vlad Petrosyan! I'm a student at Cannon McMillan High School. I love everything about technolgy, wether its hardware or software I love it all.
+                    Hey my name is Vlad Petrosyan! I'm a student at Seneca Valley High School. I love everything about technology, whether it's hardware or software I love it all.
+                </p>
             </section>
             <section class="about">
-                <h2 class="about__title">My Bio</h2>
+                <h2 class="about__title"><span class="code-comment">// </span>My Bio</h2>
                 <p class="about__text">
-                    I’m a first-generation student from Erie, PA, with a passion for technology that started early. At age 7, I was already setting up Xbox consoles, and by 13, I taught myself to build computers through YouTube tutorials. That same year, I got my first Arduino and began exploring C++.</p>
+                    I'm a first-generation student from Pittsburgh, PA, with a passion for technology that started early. At age 7, I was already setting up Xbox consoles, and by 13, I taught myself to build computers through YouTube tutorials. That same year, I got my first Arduino and began exploring C++.</p>
                 <p class="about__text">
                     At 14, I dove into Linux using a Raspberry Pi and Ubuntu, fueling my interest in automation and programming. Eager to challenge myself, I skipped the introductory Python class at school and advanced to the next level. Around this time, I joined an FTC robotics team, where I stepped up as head programmer, learning Java on the fly and helping lead the team to build a competitive robot.
                 </p>
                 <p class="about__text">
-                    Now at 15, I code in multiple languages, work on robotics, automation, and cybersecurity projects, and am constantly seeking new opportunities to learn, build, and innovate.                </p>
+                    Now at <span id="vlad-age">16</span>, I code in multiple languages and work on robotics, automation, and software development projects, constantly seeking new opportunities to learn, build, and innovate. Last summer, I attended Pittsburgh Cyber Camp and got hands-on experience with cybersecurity.
+                </p>
             </section>
             <section>
-                <h2 class="about__title">Get in Touch</h2>
+                <h2 class="about__title"><span class="code-comment">// </span>Get in Touch</h2>
                 <p class="about__text">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
                 <p class="about__text">You can reach me through the following platforms:</p>
                 <ul class="about__list">
                     <li><a href="mailto:vladimirpetrosyanjr@gmail.com" class="btn"><img src="/images/gmail.png" alt="Email Logo" class="about__gmail-logo">Email</a> or Email me at <strong>vladimirpetrosyanjr@gmail.com</strong></li>
                     <li><a href="https://github.com/vafc21" target="_blank" rel="noopener noreferrer" class="btn"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">GitHub</a></li>
-                    
+
                 </ul>
             </section>
         </main>
@@ -51,6 +59,19 @@
         <footer>
             <p>&copy; 2025 Vlad Petrosyan. All rights reserved.</p>
         </footer>
+
+        <!-- VS Code Status Bar -->
+        <div class="vscode-statusbar" aria-hidden="true">
+            <div class="statusbar-left">
+                <span class="statusbar-item">⎇ main</span>
+                <span class="statusbar-item">✓ 0 errors</span>
+            </div>
+            <div class="statusbar-right">
+                <span class="statusbar-item">HTML</span>
+                <span class="statusbar-item">UTF-8</span>
+                <span class="statusbar-item statusbar-clock"></span>
+            </div>
+        </div>
 
         <script src="script.js"></script>
     </body>

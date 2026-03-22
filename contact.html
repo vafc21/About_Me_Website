@@ -6,10 +6,16 @@
         <title>Vlad Petrosyan</title>
         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="devStyles.css">
     </head>
     <body>
         <header>
-            <h1>Vlad Petrosyan</h1>
+            <div class="header-brand">
+                <h1>Vlad Petrosyan</h1>
+                <div class="file-path">
+                    <span class="path-home">~</span><span class="path-sep">/</span><span class="path-dir">vlad</span><span class="path-sep">/</span><span class="path-file">contact.html</span>
+                </div>
+            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
@@ -22,13 +28,13 @@
         </header>
         <main>
             <section>
-                <h2 class="about__title">Get in Touch</h2>
+                <h2 class="about__title"><span class="code-comment">// </span>Get in Touch</h2>
                 <p class="about__text">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.</p>
                 <p class="about__text">You can reach me through the following platforms:</p>
                 <ul class="about__list">
                     <li><a href="mailto:vladimirpetrosyanjr@gmail.com" class="btn"><img src="/images/gmail.png" alt="Email Logo" class="about__gmail-logo">Email</a> or Email me at <strong>vladimirpetrosyan@gmail.com</strong></li>
                     <li><a href="https://github.com/vafc21" class="btn"><img src="/images/github.png" alt="GitHub Logo" class="about__github-logo">GitHub</a></li>
-                    
+
                 </ul>
             </section>
         </main>
@@ -36,6 +42,19 @@
         <footer>
             <p>&copy; 2025 Vlad Petrosyan. All rights reserved.</p>
         </footer>
+
+        <!-- VS Code Status Bar -->
+        <div class="vscode-statusbar" aria-hidden="true">
+            <div class="statusbar-left">
+                <span class="statusbar-item">⎇ main</span>
+                <span class="statusbar-item">✓ 0 errors</span>
+            </div>
+            <div class="statusbar-right">
+                <span class="statusbar-item">HTML</span>
+                <span class="statusbar-item">UTF-8</span>
+                <span class="statusbar-item statusbar-clock"></span>
+            </div>
+        </div>
 
         <script src="script.js"></script>
     </body>

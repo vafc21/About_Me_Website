@@ -6,19 +6,47 @@
         <title>Vlad Petrosyan</title>
         <link rel="icon" type="image/x-icon" href="images/favicon.png">
         <link rel="stylesheet" href="nStyles.css">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="devStyles.css">
     </head>
     <body>
-        
-        <main>
-            <section>
-            <div class="head">
-                <div class="title">Vlad Petrosyan</div>
-
-                <div class="controls">
-                <button id="prev" class="nav-btn" aria-label="Prev">‹</button>
-                <button id="next" class="nav-btn" aria-label="Next">›</button>
+        <header>
+            <div class="header-brand">
+                <h1>Vlad Petrosyan</h1>
+                <div class="file-path">
+                    <span class="path-home">~</span><span class="path-sep">/</span><span class="path-dir">vlad</span><span class="path-sep">/</span><span class="path-file">index.html</span>
                 </div>
-                
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Me</a></li>
+                    <li><a href="skills.html">Skills</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div>
+            <div class="head head--terminal">
+
+                <div class="terminal-window">
+                    <div class="terminal-titlebar">
+                        <span class="terminal-dot terminal-dot--red"></span>
+                        <span class="terminal-dot terminal-dot--yellow"></span>
+                        <span class="terminal-dot terminal-dot--green"></span>
+                        <span class="terminal-title">bash — vlad@portfolio</span>
+                    </div>
+                    <div class="terminal-body"></div>
+                </div>
+
+                <div class="controls-row">
+                    <div class="controls">
+                        <button id="prev" class="nav-btn" aria-label="Prev">‹</button>
+                        <button id="next" class="nav-btn" aria-label="Next">›</button>
+                    </div>
+                </div>
+
             </div>
             <div class="slider">
                 <div class="track" id="track">
@@ -29,7 +57,7 @@
                     <div class="frosted-box">
                         <div>
                         <h3 class="project-card__title">About Me</h3>
-                        <p class="project-card__desc">Welcome, I’m Vlad, a student, engineer, and robotics developer.
+                        <p class="project-card__desc">Welcome, I'm Vlad, a student, engineer, and robotics developer.
                         </p>
                         </div>
                     </div>
@@ -61,12 +89,26 @@
             </div>
 
             <div class="dots" id="dots"></div>
-            </section>
+            </div>
             </main>
         <footer>
             <p>&copy; 2025 Vlad Petrosyan. All rights reserved.</p>
         </footer>
 
+        <!-- VS Code Status Bar -->
+        <div class="vscode-statusbar" aria-hidden="true">
+            <div class="statusbar-left">
+                <span class="statusbar-item">⎇ main</span>
+                <span class="statusbar-item">✓ 0 errors</span>
+            </div>
+            <div class="statusbar-right">
+                <span class="statusbar-item">JavaScript</span>
+                <span class="statusbar-item">UTF-8</span>
+                <span class="statusbar-item statusbar-clock"></span>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
         <script>(() => {
         const track = document.getElementById("track");
         const wrap = track.parentElement;
