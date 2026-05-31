@@ -219,6 +219,12 @@ footer {
   filter: brightness(0) invert(1);
   opacity: 0.85;
 }
+.rush-logo {
+  height: 1.25rem;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+  opacity: 0.85;
+}
 
 .about__gmail-logo {
   width: 1.5rem;
