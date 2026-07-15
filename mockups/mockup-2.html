@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vlad Petrosyan — Concept B · HUD Sidebar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;--panel:#0f1116;--panel-2:#0c0e12;--border:#1b1f28;
+    --border-lit:#2a3346;--accent:#4c8dff;--accent-dim:rgba(76,141,255,.13);
+    --text:#ededed;--muted:#8a93a3;--muted-2:#5b6472;--green:#3fb950;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;--sans:'Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
+  .concept-tag{position:fixed;top:14px;left:18px;z-index:30;font-family:var(--mono);
+    font-size:11px;letter-spacing:.06em;color:var(--muted-2)}
+  .concept-tag b{color:var(--accent)}
+
+  header.top{display:flex;justify-content:space-between;align-items:center;
+    padding:16px 30px;border-bottom:1px solid var(--border);position:sticky;top:0;
+    background:rgba(10,10,10,.82);backdrop-filter:blur(8px);z-index:20}
+  .brand{display:flex;flex-direction:column;gap:2px;padding-left:210px}
+  .brand h1{font-size:16px;font-weight:600;letter-spacing:-.01em}
+  .brand .path{font-family:var(--mono);font-size:11px;color:var(--muted-2)}
+  header nav{display:flex;gap:24px}
+  header nav a{font-family:var(--mono);font-size:12.5px;color:var(--muted);
+    text-decoration:none;transition:color .18s}
+  header nav a:hover,header nav a.on{color:var(--accent)}
+
+  .layout{display:grid;grid-template-columns:1fr 340px;gap:26px;
+    max-width:1240px;margin:0 auto;padding:36px 30px 60px}
+
+  /* ── main column: terminal hero ── */
+  .terminal{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+    overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  .tbar{background:#14171d;padding:10px 14px;display:flex;align-items:center;gap:7px;
+    border-bottom:1px solid var(--border)}
+  .tdot{width:11px;height:11px;border-radius:50%}
+  .tdot.r{background:#ff5f57}.tdot.y{background:#febc2e}.tdot.g{background:#28c840}
+  .ttitle{color:var(--muted-2);font-family:var(--mono);font-size:11px;margin:0 auto}
+  .tbody{padding:20px 22px 26px;font-family:var(--mono);font-size:13.5px;
+    line-height:1.85;min-height:150px}
+  .prompt{color:var(--accent)}.cmd{color:var(--text)}
+  .out{color:var(--muted)}.out.green{color:var(--green)}
+  .cursor{display:inline-block;width:8px;height:15px;background:var(--text);
+    vertical-align:text-bottom;animation:blink 1.1s step-end infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  .intro{margin-top:24px}
+  .intro h2{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .intro h2 .ac{color:var(--accent)}
+  .intro p{color:var(--muted);margin-top:14px;max-width:52ch;line-height:1.7;font-size:15px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--panel);
+    border:1px solid var(--border);border-radius:20px;padding:5px 12px}
+  .chip::before{content:"#";color:var(--muted-2);margin-right:3px}
+
+  /* ── HUD sidebar ── */
+  .hud{display:flex;flex-direction:column;gap:16px}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    border:1px solid var(--border);border-radius:12px;padding:16px;position:relative}
+  .card::before{content:"";position:absolute;top:0;left:14px;right:14px;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(76,141,255,.4),transparent)}
+  .card h3{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted-2);margin-bottom:12px;display:flex;justify-content:space-between}
+  .card h3 .live{color:var(--green);display:flex;align-items:center;gap:5px}
+  .card h3 .live::before{content:"";width:6px;height:6px;border-radius:50%;
+    background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.6s infinite}
+
+  /* reactor mini */
+  .reactor-card{display:flex;align-items:center;gap:16px}
+  .reactor{position:relative;width:88px;height:88px;flex-shrink:0}
+  .reactor .core{position:absolute;inset:36%;border-radius:50%;
+    background:radial-gradient(circle at 50% 42%,#bcd6ff,var(--accent) 48%,#1a4aa0);
+    box-shadow:0 0 14px 2px rgba(76,141,255,.6);animation:pulse 3.2s ease-in-out infinite}
+  .reactor .ring{position:absolute;border-radius:50%;border:1px solid rgba(76,141,255,.22)}
+  .reactor .ring.a{inset:8%}.reactor .ring.b{inset:22%;border-color:rgba(76,141,255,.32)}
+  .reactor .dashed{position:absolute;inset:15%;border:1px dashed rgba(76,141,255,.3);
+    border-radius:50%;animation:spin 14s linear infinite}
+  .reactor .orbit{position:absolute;inset:0;animation:spin 20s linear infinite}
+  .reactor .orbit.o2{animation-duration:28s;animation-direction:reverse}
+  .reactor .odot{position:absolute;top:-3px;left:50%;width:6px;height:6px;margin-left:-3px;
+    border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+  .reactor .orbit.o2 .odot{background:var(--muted);box-shadow:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes pulse{0%,100%{opacity:.9;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+  .reactor-meta .s{font-family:var(--mono);font-size:12px;color:var(--accent)}
+  .reactor-meta .t{font-size:13px;color:var(--muted);margin-top:3px}
+
+  /* stat bars */
+  .stat{margin-bottom:12px}
+  .stat:last-child{margin-bottom:0}
+  .stat .row{display:flex;justify-content:space-between;font-family:var(--mono);
+    font-size:12px;margin-bottom:5px}
+  .stat .row .v{color:var(--accent)}
+  .bar{height:5px;background:#0b0d11;border-radius:4px;overflow:hidden}
+  .bar>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7fb0ff);
+    border-radius:4px;width:0;transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 0 10px rgba(76,141,255,.4)}
+
+  /* memory vault */
+  .vault-item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:12px}
+  .vault-item:last-child{border-bottom:none}
+  .vault-item .k{color:var(--accent);flex-shrink:0}
+  .vault-item .val{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  /* activity feed */
+  .feed{font-family:var(--mono);font-size:12px;line-height:1.9;max-height:120px;overflow:hidden}
+  .feed .ln{color:var(--muted);opacity:0;animation:fade .5s forwards}
+  .feed .ln .ts{color:var(--muted-2)}.feed .ln .ok{color:var(--green)}
+  @keyframes fade{to{opacity:1}}
+
+  @media(max-width:900px){.layout{grid-template-columns:1fr}.brand{padding-left:0}}
+</style>
+</head>
+<body>
+  <div class="concept-tag"><b>CONCEPT B</b> · HUD sidebar</div>
+  <header class="top">
+    <div class="brand">
+      <h1>Vlad Petrosyan</h1>
+      <span class="path">~/vlad/index.html</span>
+    </div>
+    <nav>
+      <a href="#" class="on">home</a><a href="#">about</a><a href="#">skills</a><a href="#">projects</a>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <!-- MAIN -->
+    <div>
+      <div class="terminal">
+        <div class="tbar">
+          <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+          <span class="ttitle">bash — vlad@portfolio</span>
+        </div>
+        <div class="tbody" id="tbody"></div>
+      </div>
+
+      <div class="intro">
+        <h2>I build things that <span class="ac">think, ship, and run.</span></h2>
+        <p>Student engineer from Zelienople, PA — chasing CMU School of Computer Science.
+           I ship full-stack products, tune FTC robots, and run a self-hosted AI stack at home.</p>
+        <div class="chips">
+          <span class="chip">python</span><span class="chip">rust</span><span class="chip">next.js</span>
+          <span class="chip">swift</span><span class="chip">robotics</span><span class="chip">self-hosting</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <aside class="hud">
+      <div class="card reactor-card">
+        <div class="reactor" aria-hidden="true">
+          <div class="ring a"></div><div class="ring b"></div><div class="dashed"></div>
+          <div class="orbit o1"><span class="odot"></span></div>
+          <div class="orbit o2"><span class="odot"></span></div>
+          <div class="core"></div>
+        </div>
+        <div class="reactor-meta">
+          <div class="s">SYSTEM ONLINE</div>
+          <div class="t">cinematic mode · idle</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Live Stats <span class="live">live</span></h3>
+        <div class="stat"><div class="row"><span>Focus</span><span class="v">92%</span></div><div class="bar"><span data-w="92"></span></div></div>
+        <div class="stat"><div class="row"><span>Shipping velocity</span><span class="v">78%</span></div><div class="bar"><span data-w="78"></span></div></div>
+        <div class="stat"><div class="row"><span>Coffee reserves</span><span class="v">34%</span></div><div class="bar"><span data-w="34"></span></div></div>
+        <div class="stat"><div class="row"><span>Uptime</span><span class="v" id="uptime">00:00:00</span></div><div class="bar"><span data-w="100"></span></div></div>
+      </div>
+
+      <div class="card">
+        <h3>Memory Vault</h3>
+        <div class="vault-item"><span class="k">goal:</span><span class="val">admission → CMU SCS</span></div>
+        <div class="vault-item"><span class="k">biz:</span><span class="val">Zillen LLC · SiteCraft</span></div>
+        <div class="vault-item"><span class="k">robotics:</span><span class="val">Steel Serpents #8509</span></div>
+        <div class="vault-item"><span class="k">stack:</span><span class="val">RTX 4070 · Ubuntu server</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Activity <span class="live">live</span></h3>
+        <div class="feed" id="feed"></div>
+      </div>
+    </aside>
+  </div>
+
+<script>
+/* terminal typing */
+const body=document.getElementById('tbody');
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function type(el,txt,sp=42){return new Promise(res=>{let i=0;(function t(){if(i<txt.length){el.textContent+=txt[i++];setTimeout(t,sp)}else res()})()})}
+async function line(prompt,cmd,cls){const l=document.createElement('div');
+  if(prompt){const p=document.createElement('span');p.className='prompt';p.textContent='vlad@portfolio:~$ ';l.appendChild(p)}
+  const c=document.createElement('span');c.className=prompt?'cmd':('out'+(cls?' '+cls:''));l.appendChild(c);body.appendChild(l);
+  await type(c,cmd,prompt?55:20);await wait(140)}
+(async()=>{await wait(300);
+  await line(1,'whoami');await line(0,'Vlad Petrosyan','green');await wait(200);
+  await line(1,'cat role.txt');await line(0,'student | engineer | robotics developer');await wait(200);
+  await line(1,'./launch --portfolio');
+  const l=document.createElement('div');const p=document.createElement('span');p.className='prompt';
+  p.textContent='vlad@portfolio:~$ ';const cur=document.createElement('span');cur.className='cursor';
+  l.append(p,cur);body.appendChild(l);
+})();
+
+/* stat bars fill */
+window.addEventListener('load',()=>setTimeout(()=>{
+  document.querySelectorAll('.bar>span').forEach(s=>s.style.width=s.dataset.w+'%')},350));
+
+/* uptime */
+const start=Date.now();
+setInterval(()=>{let s=Math.floor((Date.now()-start)/1000);
+  const h=String(Math.floor(s/3600)).padStart(2,'0'),m=String(Math.floor(s/60)%60).padStart(2,'0'),ss=String(s%60).padStart(2,'0');
+  document.getElementById('uptime').textContent=`${h}:${m}:${ss}`},1000);
+
+/* activity feed */
+const feed=document.getElementById('feed');
+const EVENTS=['git push origin main','deploy → render · <span class="ok">ok</span>','build fitllm · <span class="ok">passing</span>',
+  'jarvis: memory synced','robot: odometry calibrated','npm run build · <span class="ok">ok</span>','ssh pi5 · session open'];
+let ei=0;
+function tstamp(){const n=new Date();return n.toLocaleTimeString('en-US',{hour12:false})}
+function pushEvent(){const ln=document.createElement('div');ln.className='ln';
+  ln.innerHTML=`<span class="ts">[${tstamp()}]</span> ${EVENTS[ei%EVENTS.length]}`;
+  feed.prepend(ln);while(feed.children.length>5)feed.lastChild.remove();ei++}
+pushEvent();pushEvent();pushEvent();setInterval(pushEvent,2600);
+</script>
+</body>
+</html>
