@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vlad Petrosyan — ~/vlad</title>
+<link rel="icon" href="../_assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0b0d; --side:#0c0e11; --side-2:#0e1116; --editor:#0a0b0d;
+    --accent:#4c8dff; --text:#e6e8ec; --muted:#8a8f98; --muted-2:#565c66;
+    --line:rgba(255,255,255,.07); --line-lit:rgba(76,141,255,.35);
+    --mono:'IBM Plex Mono',ui-monospace,monospace; --sans:'Inter',system-ui,sans-serif;
+    --sidebar-w:264px; --tab-h:40px; --status-h:30px;
+    --kw:#c07de0; --ty:#4c8dff; --str:#7fd6a0; --num:#e0a458; --cm:#5a6472;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+
+  /* ---- layout shell ---- */
+  .app{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+
+  /* ---- sidebar / explorer ---- */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--side);border-right:1px solid var(--line);
+    display:flex;flex-direction:column;z-index:30}
+  .side-head{display:flex;align-items:center;gap:10px;padding:16px 16px;border-bottom:1px solid var(--line)}
+  .side-head img{width:24px;height:24px;border-radius:6px}
+  .side-head .who{font-family:var(--mono);font-size:13px}
+  .side-head .who b{color:var(--text);font-weight:600}
+  .side-head .who span{color:var(--muted-2)}
+  .explorer-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);padding:16px 18px 8px}
+  .tree{font-family:var(--mono);font-size:13px;padding:0 8px}
+  .tree .root{color:var(--muted);padding:5px 10px;display:flex;align-items:center;gap:7px}
+  .tree a.file{display:flex;align-items:center;gap:9px;padding:6px 10px 6px 26px;color:var(--muted);border-radius:6px;transition:background .15s,color .15s}
+  .tree a.file:hover{background:rgba(255,255,255,.04);color:var(--text)}
+  .tree a.file.active{background:var(--accent-dim,rgba(76,141,255,.12));color:var(--text)}
+  .tree a.file.active::before{content:"";position:absolute;left:0;width:2px;height:20px;background:var(--accent);border-radius:2px;margin-top:1px}
+  .tree a.file{position:relative}
+  .tree .ic{width:14px;text-align:center;opacity:.8}
+  .tree .grp{padding:6px 10px 4px 20px;color:var(--muted-2);display:flex;align-items:center;gap:7px}
+  .side-foot{margin-top:auto;padding:14px 18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--muted-2)}
+  .side-foot a{color:var(--muted)}
+  .side-foot a:hover{color:var(--accent)}
+
+  /* ---- main editor column ---- */
+  .main{grid-column:2;display:flex;flex-direction:column;min-height:100vh}
+  .tabbar{position:sticky;top:0;z-index:20;height:var(--tab-h);display:flex;align-items:stretch;background:var(--side-2);border-bottom:1px solid var(--line)}
+  .tab{display:flex;align-items:center;gap:8px;padding:0 18px;font-family:var(--mono);font-size:12.5px;color:var(--muted);border-right:1px solid var(--line);background:transparent}
+  .tab.active{background:var(--editor);color:var(--text);box-shadow:inset 0 -1px 0 var(--accent)}
+  .tab .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .tabbar .spacer{flex:1;border-right:1px solid var(--line)}
+  .tabbar .cmd{display:flex;align-items:center;padding:0 16px;font-family:var(--mono);font-size:12px;color:var(--muted-2);gap:8px}
+  .tabbar .cmd kbd{border:1px solid var(--line);border-radius:5px;padding:2px 6px;font-size:11px;color:var(--muted)}
+
+  .editor{flex:1;padding:0 0 var(--status-h)}
+  .file-block{border-bottom:1px solid var(--line);padding:0}
+  .file-title{display:flex;align-items:center;gap:10px;padding:20px 40px 0;font-family:var(--mono);font-size:12.5px;color:var(--muted-2)}
+  .file-title .c{color:var(--accent)}
+  .code-row{display:grid;grid-template-columns:56px 1fr;align-items:start}
+  .gutter{font-family:var(--mono);font-size:13px;color:var(--muted-2);text-align:right;padding:4px 16px 4px 0;user-select:none;line-height:1.9;opacity:.5}
+  .content{padding:8px 40px 8px 8px}
+
+  .cm{color:var(--cm);font-family:var(--mono)}
+
+  /* ---- hero ---- */
+  .hero{position:relative;padding:0;min-height:calc(100vh - var(--tab-h));display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--line)}
+  #heroOrb{position:absolute;width:min(96vh,52vw);height:min(96vh,52vw);cursor:grab;touch-action:none;z-index:1;
+    -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 46%,transparent 66%);mask-image:radial-gradient(circle at 50% 50%,#000 46%,transparent 66%)}
+  #heroOrb:active{cursor:grabbing}
+  .hero-inner{position:relative;z-index:2;padding:0 40px;pointer-events:none;max-width:760px}
+  .prompt{font-family:var(--mono);font-size:13.5px;color:var(--muted);margin-bottom:22px}
+  .prompt .u{color:var(--accent)}.prompt .p{color:var(--str)}
+  .hero-name{font-weight:800;font-size:clamp(38px,6vw,80px);line-height:1;letter-spacing:-.035em;text-shadow:0 0 40px rgba(76,141,255,.25)}
+  .hero-sub{font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:20px}
+  .hero-sub .cursor{display:inline-block;width:8px;height:15px;margin-left:2px;background:var(--accent);vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .hero-cta{margin-top:30px;display:flex;gap:12px;pointer-events:auto}
+  .btn{font-family:var(--mono);font-size:13px;font-weight:500;padding:10px 18px;border-radius:8px;transition:all .16s;display:inline-flex;gap:8px;align-items:center}
+  .btn.primary{background:var(--accent);color:#05070d}
+  .btn.primary:hover{box-shadow:0 8px 26px rgba(76,141,255,.32);transform:translateY(-1px)}
+  .btn.ghost{color:var(--text);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ---- about ---- */
+  h2.hsec{font-size:clamp(26px,3.4vw,38px);font-weight:800;letter-spacing:-.03em;margin:6px 0 4px}
+  .about p{color:var(--muted);font-size:15.5px;max-width:70ch;margin-top:16px}
+  .about p b{color:var(--text);font-weight:600}
+  .about .lead{color:#dfe3ea;font-size:19px;font-weight:500;max-width:66ch}
+  .about .lead b{color:var(--accent)}
+  .now{margin-top:26px;border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:10px;padding:18px 22px;max-width:70ch;background:rgba(76,141,255,.03)}
+  .now .k{font-family:var(--mono);font-size:12px;color:var(--accent)}
+  .now .t{font-weight:700;font-size:17px;margin-top:6px}
+  .now p{margin-top:8px}
+
+  /* ---- skills ---- */
+  .skill-line{font-family:var(--mono);font-size:14.5px;line-height:2.1}
+  .skill-line .kw{color:var(--kw)}.skill-line .ty{color:var(--ty)}.skill-line .str{color:var(--str)}.skill-line .vr{color:var(--text)}
+
+  /* ---- projects ---- */
+  .proj-list{display:flex;flex-direction:column}
+  .prow{display:grid;grid-template-columns:120px 1fr auto;gap:24px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--line);transition:background .15s}
+  .prow:hover{background:rgba(255,255,255,.015)}
+  .prow:last-child{border-bottom:none}
+  .prow .hash{font-family:var(--mono);font-size:12.5px;color:var(--muted-2)}
+  .prow .hash b{color:var(--accent);font-weight:500}
+  .prow h3{font-size:20px;font-weight:700;letter-spacing:-.02em}
+  .prow .desc{color:var(--muted);font-size:14.5px;margin-top:8px;max-width:72ch}
+  .prow .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:20px;padding:2px 9px}
+  .prow .links{margin-top:12px;display:flex;flex-wrap:wrap;gap:16px}
+  .prow .links a{font-family:var(--mono);font-size:12.5px;color:var(--accent)}
+  .prow .links a.m{color:var(--muted)}.prow .links a.m:hover{color:var(--text)}
+  .prow .links a:hover{opacity:.75}
+  .prow .side{font-family:var(--mono);font-size:12px;color:var(--muted-2);text-align:right;white-space:nowrap}
+
+  /* ---- contact ---- */
+  .contact .term{font-family:var(--mono);font-size:14px;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:12px;padding:22px 24px;max-width:72ch}
+  .contact .term .l{margin-top:6px}
+  .contact .term .u{color:var(--str)}.contact .term .o{color:var(--muted)}
+  .contact .term a{color:var(--accent)}
+  .contact .cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+
+  /* ---- status bar ---- */
+  .statusbar{position:fixed;bottom:0;left:0;right:0;height:var(--status-h);z-index:40;display:flex;align-items:center;
+    justify-content:space-between;padding:0 16px;font-family:var(--mono);font-size:11.5px;color:#cdd3db;
+    background:var(--accent);background:linear-gradient(90deg,#2b6fe6,#3b7ef0)}
+  .statusbar .l,.statusbar .r{display:flex;align-items:center;gap:16px}
+  .statusbar .seg{display:flex;align-items:center;gap:6px}
+  .statusbar .dot{width:7px;height:7px;border-radius:50%;background:#eafff0;box-shadow:0 0 6px #fff}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    :root{--sidebar-w:0px}
+    .sidebar{display:none}
+    .app{grid-template-columns:1fr}.main{grid-column:1}
+    #heroOrb{width:min(90vh,86vw);height:min(90vh,86vw)}
+    .content,.file-title{padding-left:22px;padding-right:22px}
+    .code-row{grid-template-columns:0 1fr}.gutter{display:none}
+    .prow{grid-template-columns:1fr;gap:6px}.prow .side{text-align:left}
+  }
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="side-head">
+      <img src="../_assets/v-logo.png" alt="V">
+      <div class="who"><b>vlad</b><span>@portfolio</span></div>
+    </div>
+    <div class="explorer-label">Explorer</div>
+    <nav class="tree">
+      <div class="root">▾ ~/vlad</div>
+      <a class="file" href="#hero" data-spy="hero"><span class="ic">⌂</span>welcome</a>
+      <a class="file" href="#about" data-spy="about"><span class="ic">≡</span>about.md</a>
+      <a class="file" href="#skills" data-spy="skills"><span class="ic">{}</span>skills.json</a>
+      <div class="grp">▾ projects/</div>
+      <a class="file" href="#projects" data-spy="projects"><span class="ic">◇</span>index.ts</a>
+      <a class="file" href="#contact" data-spy="contact"><span class="ic">$</span>contact.sh</a>
+    </nav>
+    <div class="side-foot">
+      <div><a href="https://github.com/vafc21" target="_blank" rel="noopener">↗ github.com/vafc21</a></div>
+      <div style="margin-top:6px"><a href="mailto:vladimirpetrosyanjr@gmail.com">✉ email</a></div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+    <div class="tabbar">
+      <div class="tab active"><span class="dot"></span>welcome</div>
+      <div class="spacer"></div>
+      <div class="cmd">Vlad Petrosyan · Pittsburgh, PA <kbd>⌘K</kbd></div>
+    </div>
+
+    <div class="editor">
+      <!-- HERO -->
+      <section class="hero file-block" id="hero">
+        <canvas id="heroOrb"></canvas>
+        <div class="hero-inner">
+          <div class="prompt"><span class="u">vlad@portfolio</span>:<span class="p">~</span>$ whoami</div>
+          <h1 class="hero-name">Vladimir Petrosyan</h1>
+          <div class="hero-sub">software &amp; robotics developer · building things that ship<span class="cursor"></span></div>
+          <div class="hero-cta">
+            <a class="btn primary" href="#projects">./view-projects</a>
+            <a class="btn ghost" href="#contact">./contact</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="file-block about" id="about">
+        <div class="file-title"><span class="c">//</span> about.md</div>
+        <div class="code-row">
+          <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
+          <div class="content reveal">
+            <h2 class="hsec"># About Me</h2>
+            <p class="lead">I'm a <b>first-generation student from Pittsburgh, PA</b>, a Junior at Seneca Valley High School with a passion for technology that started early.</p>
+            <p>At age 7 I was setting up Xbox consoles; by 13 I taught myself to build computers from YouTube tutorials and got my first Arduino, exploring C++. At 14 I moved to Linux on a Raspberry Pi and Ubuntu, skipped the intro Python class at school, and joined an FTC robotics team where I stepped up as <b>head programmer</b> — learning Java on the fly.</p>
+            <p>Now at 16 I code in multiple languages across robotics, automation, and software. Last summer I attended <b>Pittsburgh Cyber Camp</b> for hands-on cybersecurity.</p>
+            <div class="now">
+              <div class="k">// currently_working_on · 2025–2026</div>
+              <div class="t">Jefferson Educational Society Internship</div>
+              <p>Building a user-friendly mobile app for the JES that works cleanly on iOS and Android, backed entirely by an API. → <a href="https://www.jeserie.org/" target="_blank" rel="noopener" style="color:var(--accent)">jeserie.org</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="file-block" id="skills">
+        <div class="file-title"><span class="c">//</span> skills.json</div>
+        <div class="code-row">
+          <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+          <div class="content reveal">
+            <h2 class="hsec">Skills</h2>
+            <div class="skill-line" style="margin-top:16px">
+              <span class="ty">languages</span> &nbsp;<span class="vr">=</span> [ <span class="str">Python</span>, <span class="str">Java</span>, <span class="str">C++</span>, <span class="str">JavaScript</span> ]<br>
+              <span class="ty">hardware</span> &nbsp;&nbsp;<span class="vr">=</span> [ <span class="str">Computer Building</span>, <span class="str">Arduino</span>, <span class="str">Raspberry Pi</span>, <span class="str">3D Printing</span>, <span class="str">Robotics (FTC)</span> ]<br>
+              <span class="ty">coursework</span> <span class="vr">=</span> [ <span class="str">Python 1-2 (CMU CS1)</span>, <span class="str">AP Computer Science A</span>, <span class="str">Pittsburgh Cyber Camp</span> ]<br>
+              <span class="ty">systems</span> &nbsp;&nbsp;<span class="vr">=</span> [ <span class="str">Linux (Ubuntu)</span>, <span class="str">Web Dev (HTML/CSS/JS)</span>, <span class="str">Problem Solving</span>, <span class="str">Team Collaboration</span> ]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="file-block" id="projects">
+        <div class="file-title"><span class="c">//</span> projects/index.ts</div>
+        <div class="code-row">
+          <div class="gutter" id="pgutter"></div>
+          <div class="content reveal">
+            <h2 class="hsec">Projects</h2>
+            <div class="proj-list" style="margin-top:10px">
+
+              <div class="prow">
+                <div class="hash">commit <b>9d2e7b3</b></div>
+                <div>
+                  <h3>Orbit</h3>
+                  <div class="desc">A self-hosted student hub consolidating schedules, study sets, assignments, and messaging into one dashboard — class countdowns, flashcards, assignment tracking, class threads, and DMs on a lightweight Python server. Built solo for the Build4Students hackathon.</div>
+                  <div class="tags"><span class="tag">HTML</span><span class="tag">Python</span><span class="tag">Self-hosted</span></div>
+                  <div class="links"><a href="https://orbit.vlad-p.com" target="_blank" rel="noopener">↗ live</a><a href="https://www.youtube.com/watch?v=N-FwkWTuy_Y" target="_blank" rel="noopener">▶ demo</a><a class="m" href="https://github.com/vafc21/orbit" target="_blank" rel="noopener">◇ repo</a></div>
+                </div>
+                <div class="side">hackathon<br>2025</div>
+              </div>
+
+              <div class="prow">
+                <div class="hash">commit <b>297b530</b></div>
+                <div>
+                  <h3>Rush</h3>
+                  <div class="desc">An online multiplayer casino battle royale — one lobby, 1,000 in-game funds, 14+ games (Crash, Mines, Plinko, Roulette). Server-side cryptographic RNG, atomic Postgres balances via Supabase, live lobby sync over Pusher.</div>
+                  <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">Supabase</span></div>
+                  <div class="links"><a href="https://rush.vlad-p.com" target="_blank" rel="noopener">↗ live</a><a class="m" href="https://github.com/vafc21/rush" target="_blank" rel="noopener">◇ repo</a></div>
+                </div>
+                <div class="side">full-stack<br>2025</div>
+              </div>
+
+              <div class="prow">
+                <div class="hash">commit <b>4c8a1f9</b></div>
+                <div>
+                  <h3>FTC Robotics · 2025–2026</h3>
+                  <div class="desc">My second FTC season with Team 8509 — contributing from day one. Green &amp; Red Scrimmage (19th) and Southwestern PA Qualifier (24th). Showed up every day to self-learn Java and grind hard problems.</div>
+                  <div class="tags"><span class="tag">Java</span><span class="tag">Limelight</span><span class="tag">Team 8509</span></div>
+                  <div class="links"><a class="m" href="https://github.com/vafc21/FtcRobotController/tree/8509_DECODE_25-26_limelight" target="_blank" rel="noopener">◇ repo</a><a class="m" href="https://ftcscout.org/teams/8509?season=2025" target="_blank" rel="noopener">◇ FTC Scout</a></div>
+                </div>
+                <div class="side">robotics<br>2025–26</div>
+              </div>
+
+              <div class="prow">
+                <div class="hash">commit <b>b7c2e94</b></div>
+                <div>
+                  <h3>FTC Robotics · 2024–2025</h3>
+                  <div class="desc">Joined late as the team scrambled for a programmer. Learned Java from a stack of courses in about a week, wrote OpMode code all season, and got my first taste of programming a real robot.</div>
+                  <div class="tags"><span class="tag">Java</span><span class="tag">OpMode</span><span class="tag">Team 8509</span></div>
+                  <div class="links"><a class="m" href="https://github.com/MrStickyG/FTC2025.2/tree/2-Player-Vlad" target="_blank" rel="noopener">◇ repo</a><a class="m" href="https://ftcscout.org/teams/8509?season=2024" target="_blank" rel="noopener">◇ FTC Scout</a></div>
+                </div>
+                <div class="side">robotics<br>2024–25</div>
+              </div>
+
+              <div class="prow">
+                <div class="hash">commit <b>2b5d9e7</b></div>
+                <div>
+                  <h3>Raspi Py Server</h3>
+                  <div class="desc">A web dashboard for my Raspberry Pi that runs Python and shell scripts from any browser on my LAN — no SSH. Upload scripts, clone repos, stream live output. FastAPI backend, plain HTML/CSS/JS frontend.</div>
+                  <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Self-hosted</span></div>
+                  <div class="links"><a class="m" href="https://github.com/vafc21/raspi-py-server" target="_blank" rel="noopener">◇ repo</a></div>
+                </div>
+                <div class="side">tooling</div>
+              </div>
+
+              <div class="prow">
+                <div class="hash">commit <b>e9b3c52</b></div>
+                <div>
+                  <h3>MyAI &nbsp;·&nbsp; Don't Get Caught</h3>
+                  <div class="desc">MyAI — a chatbot on OpenAI's API to learn how to build with AI. Don't Get Caught — the first game I ever made (Python/Pygame), an avoidance game that taught me to structure a real multi-file project.</div>
+                  <div class="tags"><span class="tag">Python</span><span class="tag">OpenAI API</span><span class="tag">Pygame</span></div>
+                  <div class="links"><a class="m" href="https://github.com/vafc21/MyAI" target="_blank" rel="noopener">◇ MyAI</a><a class="m" href="https://github.com/vafc21/Dont_Get_Caught" target="_blank" rel="noopener">◇ Don't Get Caught</a></div>
+                </div>
+                <div class="side">early work</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="file-block contact" id="contact">
+        <div class="file-title"><span class="c">//</span> contact.sh</div>
+        <div class="code-row">
+          <div class="gutter">1<br>2<br>3<br>4<br>5</div>
+          <div class="content reveal">
+            <h2 class="hsec">Get in touch</h2>
+            <div class="term" style="margin-top:16px">
+              <div class="l"><span class="u">$</span> <span class="o">echo</span> "I'm always open to new projects, ideas, or opportunities."</div>
+              <div class="l"><span class="u">$</span> mail <a href="mailto:vladimirpetrosyanjr@gmail.com">vladimirpetrosyanjr@gmail.com</a></div>
+              <div class="l"><span class="u">$</span> open <a href="https://github.com/vafc21" target="_blank" rel="noopener">github.com/vafc21</a></div>
+            </div>
+            <div class="cta">
+              <a class="btn primary" href="mailto:vladimirpetrosyanjr@gmail.com">✉ Email me</a>
+              <a class="btn ghost" href="https://github.com/vafc21" target="_blank" rel="noopener">◇ GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- STATUS BAR -->
+<div class="statusbar">
+  <div class="l"><span class="seg"><span class="dot"></span>main</span><span class="seg">↑ 0 ↓ 0</span><span class="seg">✓ 0 problems</span></div>
+  <div class="r"><span class="seg">TypeScript</span><span class="seg">UTF-8</span><span class="seg">Pittsburgh, PA</span><span class="seg" id="clock">--:--:--</span></div>
+</div>
+
+<script src="../_assets/orb.js" defer></script>
+<script>
+  // line-number gutter for the (long) projects file
+  (function(){var g=document.getElementById('pgutter');if(g){var s='';for(var i=1;i<=42;i++)s+=i+'<br>';g.innerHTML=s;}})();
+  // clock
+  function tick(){var d=new Date();var p=n=>String(n).padStart(2,'0');document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+  setInterval(tick,1000);tick();
+  // reveal
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  // scrollspy for the file tree
+  var files=[].slice.call(document.querySelectorAll('.tree a.file'));
+  var secs=files.map(function(a){return document.getElementById(a.getAttribute('data-spy'));});
+  var spy=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
+    var id=e.target.id;files.forEach(function(a){a.classList.toggle('active',a.getAttribute('data-spy')===id);});
+  }});},{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){if(s)spy.observe(s);});
+  // orb
+  window.addEventListener('DOMContentLoaded',function(){
+    (function start(){
+      if(!window.AuroraOrb){return setTimeout(start,40);}
+      var cv=document.getElementById('heroOrb');
+      var orb=new AuroraOrb(cv,{points:window.innerWidth<640?760:1200,fill:0.36});
+      orb.setState('idle');setTimeout(function(){orb.setState('think');},600);
+      var down=false,lx=0,ly=0;
+      cv.addEventListener('pointerdown',function(e){down=true;lx=e.clientX;ly=e.clientY;orb.grab();cv.setPointerCapture(e.pointerId);});
+      cv.addEventListener('pointermove',function(e){if(!down)return;orb.dragBy(e.clientX-lx,e.clientY-ly);lx=e.clientX;ly=e.clientY;});
+      var up=function(){if(down){down=false;orb.release();}};
+      cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+    })();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vladimir Petrosyan — Option C · Planetrise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#080809;--accent:#4c8dff;--text:#ededed;--muted:#8a8f98;--line:rgba(255,255,255,.08)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:22px 32px}
+  .brand{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.02em;color:var(--muted)}
+  .brand b{color:var(--text);font-weight:500}
+  .nav-links{display:flex;gap:28px}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .18s}
+  .nav-links a:hover{color:var(--text)}
+
+  /* orb rising from below like a planet on a horizon; feathered edge, no box */
+  #heroOrb{
+    position:fixed;left:50%;bottom:-46vh;transform:translateX(-50%);
+    width:min(150vh,128vw);height:min(150vh,128vw);
+    cursor:grab;touch-action:none;z-index:1;
+    -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 40%,transparent 58%);
+    mask-image:radial-gradient(circle at 50% 50%,#000 40%,transparent 58%);
+  }
+  #heroOrb:active{cursor:grabbing}
+
+  .stage{position:relative;height:100vh;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:19vh}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.36em;text-transform:uppercase;color:var(--accent);opacity:.9;margin-bottom:20px;position:relative;z-index:2}
+  .name{position:relative;z-index:2;font-weight:900;text-align:center;font-size:clamp(52px,12vw,168px);line-height:.9;letter-spacing:-.045em;text-shadow:0 0 60px rgba(76,141,255,.22)}
+  .role{position:relative;z-index:2;margin-top:26px;font-family:'IBM Plex Mono',monospace;font-size:14.5px;color:var(--muted);letter-spacing:.02em}
+  .role .cursor{display:inline-block;width:8px;height:16px;margin-left:2px;background:var(--accent);vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .cta{position:relative;z-index:2;margin-top:32px;display:flex;gap:12px}
+  .cta a{font-size:14px;font-weight:600;text-decoration:none;padding:12px 22px;border-radius:9px;transition:all .18s}
+  .cta .primary{background:var(--accent);color:#05070d}
+  .cta .primary:hover{box-shadow:0 8px 30px rgba(76,141,255,.35);transform:translateY(-1px)}
+  .cta .ghost{color:var(--text);border:1px solid var(--line)}
+  .cta .ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+  .statusbar{position:fixed;bottom:0;left:0;right:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:12px 32px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);border-top:1px solid var(--line);background:linear-gradient(to top,rgba(8,8,9,.92),rgba(8,8,9,.35) 60%,transparent)}
+  .statusbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:7px;box-shadow:0 0 8px var(--accent)}
+  .hint{opacity:.55}
+  .switch{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:6;display:flex;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:12px}
+  .switch a{color:var(--muted);text-decoration:none;padding:5px 11px;border:1px solid var(--line);border-radius:20px}
+  .switch a.on{color:var(--accent);border-color:var(--accent)}
+  @media (max-width:640px){.nav-links{display:none}.statusbar .hint{display:none}.switch{display:none}#heroOrb{bottom:-30vh}}
+</style>
+</head>
+<body>
+  <div class="switch"><a href="hero-a.html">A · Halo</a><a href="hero-b.html">B · Split</a><a class="on" href="hero-c.html">C · Planetrise</a></div>
+  <nav>
+    <div class="brand"><b>vlad-p</b>.com</div>
+    <div class="nav-links"><a href="#">About</a><a href="#">Skills</a><a href="#">Projects</a><a href="#">Contact</a></div>
+  </nav>
+
+  <canvas id="heroOrb"></canvas>
+  <div class="stage">
+    <div class="eyebrow">Software Developer</div>
+    <h1 class="name">Vladimir<br>Petrosyan</h1>
+    <div class="role">building things that ship<span class="cursor"></span></div>
+    <div class="cta"><a class="primary" href="#">View Projects</a><a class="ghost" href="#">Get in touch</a></div>
+  </div>
+
+  <div class="statusbar">
+    <div><span class="dot"></span>main · systems online</div>
+    <div class="hint">drag the sphere to spin it — flick for momentum</div>
+    <div id="clock">--:--:--</div>
+  </div>
+
+  <script src="assets/orb.js" defer></script>
+  <script>
+    function tick(){var d=new Date();var p=n=>String(n).padStart(2,'0');document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+    setInterval(tick,1000);tick();
+    window.addEventListener('DOMContentLoaded',function(){
+      (function start(){
+        if(!window.AuroraOrb){return setTimeout(start,40);}
+        var cv=document.getElementById('heroOrb');
+        var orb=new AuroraOrb(cv,{points:window.innerWidth<640?900:1500,fill:0.30});
+        orb.setState('idle');setTimeout(function(){orb.setState('think');},600);
+        var down=false,lx=0,ly=0;
+        cv.addEventListener('pointerdown',function(e){down=true;lx=e.clientX;ly=e.clientY;orb.grab();cv.setPointerCapture(e.pointerId);});
+        cv.addEventListener('pointermove',function(e){if(!down)return;orb.dragBy(e.clientX-lx,e.clientY-ly);lx=e.clientX;ly=e.clientY;});
+        var up=function(){if(down){down=false;orb.release();}};
+        cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+      })();
+    });
+  </script>
+</body>
+</html>
